@@ -1,0 +1,37 @@
+[
+    {
+        "image": "/aryabhatta.jpg",
+        "name": "ARYABHATTA HALL",
+        "capacity": 200,
+        "shortDescription": "A versatile hall ideal for seminars and workshops.",
+        "longDescription": "Aryabhatta Hall is a spacious and well-equipped venue that can accommodate up to 200 attendees. It is perfect for hosting academic seminars, workshops, and guest lectures. The hall features state-of-the-art audiovisual equipment and comfortable seating, ensuring a great experience for all participants."
+    },
+    {
+        "image": "/bhaskara.jpg",
+        "name": "BHASKARA HALL",
+        "capacity": 150,
+        "shortDescription": "A compact space for focused discussions and meetings.",
+        "longDescription": "Bhaskara Hall is designed for intimate gatherings, such as departmental meetings, small workshops, and group discussions. With a capacity of 150, it offers a conducive environment for learning and collaboration. The hall is equipped with modern facilities to support your event."
+    },
+    {
+        "image": "/chanakya.jpg",
+        "name": "CHANAKYA HALL",
+        "capacity": 180,
+        "shortDescription": "A well-appointed hall suitable for mid-sized events.",
+        "longDescription": "Chanakya Hall is an elegant venue tailored for mid-sized events, including training sessions, panel discussions, and cultural programs. It can comfortably host 180 attendees and is equipped with cutting-edge technology to meet your event's needs."
+    },
+    {
+        "image": "/oat.jpg",
+        "name": "OAT",
+        "capacity": 250,
+        "shortDescription": "An open-air theater for large-scale performances.",
+        "longDescription": "The Open-Air Theater (OAT) is a stunning venue for outdoor events, including cultural performances, concerts, and ceremonies. With a capacity of 250, it provides an immersive experience under the open sky. The OAT is designed to offer excellent acoustics and visibility for audiences."
+    },
+    {
+        "image": "/soms.png",
+        "name": "SOMS AUDITORIUM",
+        "capacity": 300,
+        "shortDescription": "A grand auditorium for prestigious events.",
+        "longDescription": "The SOMS Auditorium is a premier facility for high-profile events, such as conferences, product launches, and convocation ceremonies. It boasts a seating capacity of 300, advanced lighting and sound systems, and a luxurious ambiance that sets the stage for memorable occasions."
+    }
+]
