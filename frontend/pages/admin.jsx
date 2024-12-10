@@ -1,19 +1,40 @@
 import { MdDashboard } from "react-icons/md";
 import { FaClock } from "react-icons/fa";
 import { useEffect, useState } from "react";
-
+import { toast } from 'sonner'
 const AdminPanel = () => {
     const menu_links = ["Dashboard", "Requests"];
     const menu_symbols = [<MdDashboard />, <FaClock />];
     const [selectedIndex, setSelectedIndex] = useState(1);
     const [requests, setRequests] = useState([]);
-
+    const [confirmationIds, setConfirmationIds] = useState([]);
+    const [rejectionIds, setRejectionIds] = useState([]);
     useEffect(() => {
-        fetch("/data/requests.json")
+        const handleUnload = () => {
+            console.log('Unloading...');
+        };
+    
+        window.addEventListener('unload', handleUnload);
+        
+        fetch("http://localhost:3000/api/v1/getAllBookings", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+            },
+        })
             .then((response) => response.json())
-            .then((response) => setRequests(response));
+            .then((response) => {
+                if(response.success) {
+                    setRequests(response.data)
+                } else {
+                    toast.error(response.message);
+                }
+            });
+            return () => {
+                window.removeEventListener('unload', handleUnload);
+            };
     }, []);
-
     const handleApprove = (id) => {
         setRequests((prevRequests) =>
             prevRequests.filter((request) => request.id !== id)

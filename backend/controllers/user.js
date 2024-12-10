@@ -1,7 +1,6 @@
 const User = require('../database/Schema/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const UserValidation = require('../middleware/validation');
 exports.createUser = async(req, res) => {
     try {
         const {username, password, rollNumber} = req.body;
@@ -55,7 +54,7 @@ exports.loginUser = async (req, res) => {
             return res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
 
-        jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+        jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
 
             return res.status(200).json({
@@ -65,7 +64,7 @@ exports.loginUser = async (req, res) => {
                 user: {
                     id: user._id,
                     username: user.username,
-                    rollNo: user.rollNo
+                    rollNo: user.rollNo,
                 }
             });
         });

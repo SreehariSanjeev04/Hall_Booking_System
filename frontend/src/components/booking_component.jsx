@@ -52,21 +52,23 @@ const BookingComponent = ({
         }
     
         try {
+            const token = localStorage.getItem("token");
             const response = await fetch("http://localhost:3000/api/v1/addBooking", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify({
                     hallName: name,
                     bookingDate: date.toISOString().split("T")[0],
-                    startTime: `${date.toISOString().split("T")[0]}T${startTimeConverted}:00Z`,
-                    endTime: `${date.toISOString().split("T")[0]}T${endTimeConverted}:00Z`,
+                    startTime: `${date.toISOString().split("T")[0]}T${startTimeConverted}:00`,
+                    endTime: `${date.toISOString().split("T")[0]}T${endTimeConverted}:00`,
                     user: "User ID",
                 }),
             });
             const responseData = await response.json();
-            console.log(responseData);
+            console.log('Here is the response: ' + responseData);
             if (responseData.success) {
                 toast.success("Booking confirmed!");
             } else {

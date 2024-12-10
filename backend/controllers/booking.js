@@ -1,5 +1,21 @@
 const Booking = require('../database/Schema/booking');
 
+exports.getAllBookings = async (req, res) => {
+    try {
+        const allBookings = await Booking.find().sort({ bookingDate: -1 });
+        res.status(200).json({
+            success: true,
+            data: allBookings,
+            message: 'All bookings fetched successfully'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred while fetching all bookings'
+        });
+    }
+}
 exports.getBookings = async (req, res) => {
     const { hallName } = req.body;
     console.log(hallName)
@@ -91,24 +107,49 @@ exports.addBooking = async (req, res) => {
 };
 
 exports.removeBooking = async(req, res) => {
-    const {hallName, bookingDate, startTime, endTime, user} = req.body;
-    if(!hallName ||!bookingDate ||!startTime ||!endTime ||!user) {
-        return res.status(400).json({message: 'All fields must be provided'});
+    const { ids } = req.body;
+    try {
+        if(!ids || !Array.isArray(ids)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Request"
+            })
+        }
+        const result = await Booking.deleteMany({
+            _id: {$in: ids}
+        });
+        res.status(200).json({
+            success: true,
+            message: `${result.deletedCount} bookings deleted successfully`
+        })
+    } catch(err) {
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
     }
-    const deletedBooking = await Booking.findOneAndDelete({hallName: hallName, bookingDate: bookingDate, startTime: startTime, endTime: endTime});
-    if(!deletedBooking) {
-        return res.status(404).json({message: 'Booking not found'});
-    }
-    res.status(200).json(deletedBooking);
 }
 exports.confirmBooking = async(req, res) => {
-    const {hallName, bookingDate, startTime, endTime, user} = req.body;
-    if(!hallName ||!bookingDate ||!startTime ||!endTime ||!user) {
-        return res.status(400).json({message: 'All fields must be provided'});
+    const { ids } = req.body;
+    if(!ids || !Array.isArray(ids)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Request"
+        })
     }
-    const updatedBooking = await Booking.findOneAndUpdate({hallName: hallName, bookingDate: bookingDate, startTime: startTime, endTime: endTime}, {status: 'Confirmed'}, {new: true});
-    if(!updatedBooking) {
-        return res.status(404).json({message: 'Booking not found'});
+    try {
+        const result = await Booking.updateMany({
+            _id: { $in: ids},
+            status: "Confirmed"
+        });
+        res.status(200).json({
+            success: true,
+            message: `${result.modifiedCount} bookings confirmed successfully`
+        })
+    } catch(err) {
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
     }
-    res.status(200).json(updatedBooking);
 }
