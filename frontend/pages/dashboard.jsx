@@ -1,23 +1,14 @@
 import { MdDashboard } from "react-icons/md";
 import { FaClock } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import DashBoardCard from "../src/components/dashboard_card";
+import { useState } from "react";
 import { IoMdLogIn } from "react-icons/io";
-
+import DashBoardGrid from "../src/components/dashboard_grid";
+import RecentBookings from "../src/components/recent_bookings";
 const DashBoard = () => {
-    const isLoggedIn = true;
-    const menu_links = ["Dashboard", "Recent Bookings", "Contact", isLoggedIn ? "Logout" : "Login"];
-    const menu_symbols = [<MdDashboard />, <FaClock />, <FaPhoneAlt />, <IoMdLogIn />];
-    const [data, setData] = useState([]);
+    const menu_links = ["Dashboard", "Recent Bookings", "Your Booking Requests"];
+    const menu_symbols = [<MdDashboard />, <FaClock />, <FaPhoneAlt />];
     const [selectedIndex, setSelectedIndex] = useState(0);
-
-    useEffect(() => {
-        fetch("/data/dashboard.json")
-            .then((response) => response.json())
-            .then((response) => setData(response));
-    }, []);
-
     return (
         <div className="h-screen flex">
             <div className="bg-white h-full w-20 md:w-64 fixed top-0 left-0 z-20">
@@ -44,24 +35,7 @@ const DashBoard = () => {
                 </a>
 
             </div>
-
-                <div className="pt-24 px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 overflow-y-auto h-full">
-                    {data.length > 0 ? (
-                        data.map((item, index) => (
-                            <DashBoardCard
-                                key={index}
-                                image={item.image}
-                                name={item.name}
-                                capacity={item.capacity}
-                                shortDescription={item.shortDescription}
-                            />
-                        ))
-                    ) : (
-                        <p className="col-span-full text-center text-gray-500">
-                            No data available
-                        </p>
-                    )}
-                </div>
+                    <RecentBookings  />
             </div>
         </div>
     );

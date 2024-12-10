@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const BookingSchema = new mongoose.Schema({
     hallName: { type: String, required: true },
-    roomNo: { type: Number, required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    bookingDate: { type: Date, required: true },
+    startTime: { type: Date, required: true},
+    endTime: { type: Date, required: true},
+    user: { type: String, required: true },
     status: { type: String, enum: ['Pending', 'Confirmed'], default: 'Pending' }
 });
 

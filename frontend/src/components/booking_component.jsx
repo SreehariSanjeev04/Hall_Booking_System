@@ -26,26 +26,60 @@ const BookingComponent = ({
     const handleSelectEndTime = (event) => {
         setSelectedEndTime(event.target.value);
     };
-
-    const handleConfirmation = () => {
-        const startingTime = Date.parse(
-            `${new Date().toISOString().split("T")[0]}T${selectedStartTime}`
-        );
-        const endingTime = Date.parse(
-            `${new Date().toISOString().split("T")[0]}T${selectedEndTime}`
-        );
-
-        if (startingTime >= endingTime) {
-            toast.error("Start time should be earlier than end time");
-            return;
+    const convertStringTo24Hour = (string) => {
+        const [time, meridian] = string.split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+    
+        if (meridian === 'PM' && hours < 12) {
+            hours += 12;
+        } else if (meridian === 'AM' && hours === 12) {
+            hours = 0;
         }
-
-        toast.success("Booking confirmed");
+    
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     };
+    
+    const handleConfirmation = async (date) => {
+        const startTimeConverted = convertStringTo24Hour(selectedStartTime);
+        const endTimeConverted = convertStringTo24Hour(selectedEndTime);
+    
+        if (!selectedStartTime || !selectedEndTime) {
+            return toast.error("Please select both start and end times.");
+        }
+    
+        if (startTimeConverted >= endTimeConverted) {
+            return toast.error("Invalid time range. Start time should be before end time.");
+        }
+    
+        try {
+            const response = await fetch("http://localhost:3000/api/v1/addBooking", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    hallName: name,
+                    bookingDate: date.toISOString().split("T")[0],
+                    startTime: `${date.toISOString().split("T")[0]}T${startTimeConverted}:00Z`,
+                    endTime: `${date.toISOString().split("T")[0]}T${endTimeConverted}:00Z`,
+                    user: "User ID",
+                }),
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+            if (responseData.success) {
+                toast.success("Booking confirmed!");
+            } else {
+                toast.error(`Error: ${responseData.message}`);
+            }
+        } catch (error) {
+            toast.error("Network error. Please try again.");
+        }
+    };
+    
 
     return (
         <div className="overflow-auto h-full">
-            {/* Hall Information */}
             <div className="w-[95%] mx-auto mt-5 bg-white shadow-lg flex flex-col md:flex-row p-2 md:p-6 rounded-md">
                 <img
                     src={image}
@@ -117,7 +151,7 @@ const BookingComponent = ({
 
                 <button
                     className="mt-4 bg-blue-500 text-white p-2 rounded-md w-full"
-                    onClick={handleConfirmation}
+                    onClick={() => handleConfirmation(value)}
                 >
                     Confirm
                 </button>

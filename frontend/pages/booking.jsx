@@ -83,7 +83,7 @@ const Booking = () => {
             </div>
 
         {
-            isValid && <div className="pt-24 px-4 h-full overflow-y-auto">
+            isValid && <div className="pt-20 px-2 h-full overflow-y-auto">
             {hallData ? (
                 <BookingComponent
                     name={hallData.name}
