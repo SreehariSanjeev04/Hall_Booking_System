@@ -5,7 +5,7 @@ const RoleBasedRoute = ({allowedRoles, children}) => {
     if(!token) return <Navigate to="/login" />;
 
     const user = JSON.parse(atob(token.split(".")[1]));
-    return allowedRoles.includes(user.role) ? children : <Navigate to="/" />;
+    return allowedRoles.includes(user.role) && user.exp * 1000 > Date.now() ? children : <Navigate to="/" />;
 }
 
 export default RoleBasedRoute;

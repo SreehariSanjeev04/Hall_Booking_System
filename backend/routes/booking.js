@@ -4,8 +4,8 @@ const { validateAdmin, validateUser } = require('../middleware/auth');
 
 router.post('/getBookings', getBookings)
     .post('/addBooking', validateUser, addBooking)
-    .delete('/removeBooking/:id', validateAdmin, removeBooking)
-    .patch('/confirmBooking/:id', validateAdmin, confirmBooking)
+    .delete('/removeBooking', validateAdmin, removeBooking)
+    .patch('/confirmBooking', validateAdmin, confirmBooking)
     .get('/getAllBookings', validateAdmin, getAllBookings);
     
 module.exports = router;

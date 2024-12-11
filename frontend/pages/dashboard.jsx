@@ -8,6 +8,7 @@ import RecentBookings from "../src/components/recent_bookings";
 const DashBoard = () => {
     const menu_links = ["Dashboard", "Recent Bookings", "Your Booking Requests"];
     const menu_symbols = [<MdDashboard />, <FaClock />, <FaPhoneAlt />];
+    const components = [<DashBoardGrid />, <RecentBookings />]
     const [selectedIndex, setSelectedIndex] = useState(0);
     return (
         <div className="h-screen flex">
@@ -17,7 +18,7 @@ const DashBoard = () => {
                     {menu_links.map((link, index) => (
                         <li
                             key={index}
-                            className={`flex items-center gap-3 rounded-md p-4 hover:bg-blue-300 hover:duration-500 ${
+                            className={`flex font-semibold tracking-tighter mb-2 cursor-pointer items-center gap-3 rounded-md p-4 hover:bg-blue-300 hover:duration-500 ${
                                 selectedIndex === index ? "bg-blue-300" : ""
                             }`}
                             onClick={() => setSelectedIndex(index)}
@@ -35,7 +36,7 @@ const DashBoard = () => {
                 </a>
 
             </div>
-                    <RecentBookings  />
+                    {components[selectedIndex]}
             </div>
         </div>
     );

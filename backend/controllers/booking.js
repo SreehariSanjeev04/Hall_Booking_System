@@ -1,4 +1,5 @@
 const Booking = require('../database/Schema/booking');
+const mongoose = require('mongoose');
 
 exports.getAllBookings = async (req, res) => {
     try {
@@ -86,11 +87,11 @@ exports.addBooking = async (req, res) => {
         }
 
         const newBooking = new Booking({
-            hallName,
+            hallName: hallName,
             bookingDate: modifiedBookingDate,
             startTime: modifiedStartTime,
             endTime: modifiedEndTime,
-            user,
+            user: user,
         });
 
         await newBooking.save();
@@ -106,50 +107,66 @@ exports.addBooking = async (req, res) => {
     }
 };
 
-exports.removeBooking = async(req, res) => {
+exports.removeBooking = async (req, res) => {
     const { ids } = req.body;
     try {
-        if(!ids || !Array.isArray(ids)) {
+        if (!ids || !Array.isArray(ids) || !ids.every(id => mongoose.Types.ObjectId.isValid(id))) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid Request"
-            })
+            });
         }
+
+        const convertedIds = ids.map(id => new mongoose.Types.ObjectId(id));
+
         const result = await Booking.deleteMany({
-            _id: {$in: ids}
+            _id: { $in: convertedIds }
         });
+
         res.status(200).json({
             success: true,
             message: `${result.deletedCount} bookings deleted successfully`
-        })
-    } catch(err) {
+        });
+    } catch (err) {
         res.status(500).json({
             success: false,
             message: "Internal Server Error"
-        })
+        });
     }
-}
-exports.confirmBooking = async(req, res) => {
+};
+
+
+exports.confirmBooking = async (req, res) => {
     const { ids } = req.body;
-    if(!ids || !Array.isArray(ids)) {
+    console.log('Received IDs:', ids);
+
+    if (!ids || !Array.isArray(ids) || !ids.every(id => mongoose.Types.ObjectId.isValid(id))) {
+        console.log('Validation Failed');
         return res.status(400).json({
             success: false,
             message: "Invalid Request"
-        })
-    }
-    try {
-        const result = await Booking.updateMany({
-            _id: { $in: ids},
-            status: "Confirmed"
         });
+    }
+
+    try {
+        const convertedIds = ids.map(id => new mongoose.Types.ObjectId(id));
+
+        const result = await Booking.updateMany(
+            { _id: { $in: convertedIds }, status: { $ne: "Confirmed" } }, 
+            { $set: { status: "Confirmed" } } 
+        );
+
+        console.log('Update Result:', result);
+
         res.status(200).json({
             success: true,
             message: `${result.modifiedCount} bookings confirmed successfully`
-        })
-    } catch(err) {
+        });
+    } catch (err) {
+        console.error('Error during update:', err);
         res.status(500).json({
             success: false,
-            message: "Internal Server Error"
-        })
+            message: err.message
+        });
     }
-}
+};
