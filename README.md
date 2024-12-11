@@ -25,12 +25,12 @@ Make sure you have **Node.js** and **npm** installed.
 
 1. Clone the repository:
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/SreehariSanjeev04/Hall_Booking_System
     ```
 
 2. Navigate to the project folder:
     ```bash
-    cd <project_folder>
+    cd hall_booking_system
     ```
 
 3. Install dependencies:
