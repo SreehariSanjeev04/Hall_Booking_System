@@ -1,11 +1,19 @@
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { UserContext } from "./userContext";
 
-const RoleBasedRoute = ({allowedRoles, children}) => {
-    const token = localStorage.getItem("token");
-    if(!token) return <Navigate to="/login" />;
+const RoleBasedRoute = ({ allowedRoles, children }) => {
+    const { user, loading } = useContext(UserContext);
 
-    const user = JSON.parse(atob(token.split(".")[1]));
-    return allowedRoles.includes(user.role) && user.exp * 1000 > Date.now() ? children : <Navigate to="/" />;
-}
+    if (loading) return <div>Loading...</div>;
+
+    if (!user) {
+        return <Navigate to="/login" />;
+    }
+
+    if (!allowedRoles.includes(user.role)) return <Navigate to="/" />;
+
+    return children;
+};
 
 export default RoleBasedRoute;

@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 
 exports.getAllBookings = async (req, res) => {
     try {
-        const allBookings = await Booking.find().sort({ bookingDate: -1 });
+        console.log(new Date().toLocaleDateString());
+        const allBookings = await Booking.find({
+            bookingDate: { $gte: new Date()},
+        }).sort({ bookingDate: -1 });
         res.status(200).json({
             success: true,
             data: allBookings,
@@ -17,19 +20,51 @@ exports.getAllBookings = async (req, res) => {
         });
     }
 }
-exports.getBookings = async (req, res) => {
-    const { hallName } = req.body;
-    console.log(hallName)
-    if (!hallName) {
-        return res.status(400).json({ 
+exports.userBookings = async (req, res) => {
+    try {
+        const { rollNumber } = req.body;
+        console.log(new Date().toLocaleDateString());
+        const allBookings = await Booking.find({
+            user: rollNumber,
+            bookingDate: { $gte: new Date()},
+        }).sort({ bookingDate: -1 });
+        res.status(200).json({
+            success: true,
+            data: allBookings,
+            message: 'User bookings fetched successfully'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
             success: false,
-            message: 'Hall name must be provided' });
+            message: 'An error occurred while fetching all bookings'
+        });
+    }
+}
+exports.getBookings = async (req, res) => {
+    const { hallName } = req.query;
+
+    if (!hallName) {
+        return res.status(400).json({
+            success: false,
+            message: 'Hall name must be provided'
+        });
     }
 
+    const modifiedHallName = hallName.split('%').join(' ');  
+    console.log(modifiedHallName);
+
     try {
-        const hallBookings = await Booking.find({ hallName: hallName })
-            .sort({ bookingDate: -1 })
-            .limit(5);
+        const hallBookings = await Booking.find({
+            hallName: modifiedHallName,
+            bookingDate: {
+                $gte: new Date()  
+            },
+            status: 'Confirmed'
+        })
+        .sort({ bookingDate: -1 })
+        .limit(5);
+
         res.status(200).json({
             success: true,
             data: hallBookings,
@@ -37,11 +72,13 @@ exports.getBookings = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: 'An error occurred while fetching bookings' });
+            message: 'An error occurred while fetching bookings'
+        });
     }
 };
+
 
 exports.addBooking = async (req, res) => {
     const { hallName, bookingDate, startTime, endTime, user } = req.body;

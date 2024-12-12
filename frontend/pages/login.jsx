@@ -1,8 +1,10 @@
 
 import {replace, useNavigate} from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { toast } from 'sonner'
+import { UserContext } from '../src/context/userContext'
 const Login = () => {
+    const {loading, setUser} = useContext(UserContext);
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({
         username: "",
@@ -22,27 +24,32 @@ const Login = () => {
                 rollNumber: ""
             });
         } else {
-            fetch("http://localhost:3000/api/v1/loginUser", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify(userDetails),
-            }).then( response => response.json())
-            .then( response => {
-                console.log(response);
-                if(response.success) {
-                    toast.success("Login successful.");
-                    localStorage.setItem("token", response.token);
-                    navigate("/", {
-                            replace: true,
-                    });
-
-                } else {
-                    toast.error(response.message);
-                }
-            })
+            if (!loading) {
+                fetch("http://localhost:3000/api/v1/loginUser", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify(userDetails),
+                })
+                    .then(response => response.json())
+                    .then(response => {
+                        console.log(response);
+                        if (response.success) {
+                            toast.success("Login successful.");
+                            localStorage.setItem("token", response.token);
+    
+                            const payload = JSON.parse(atob(response.token.split('.')[1]));
+                            setUser(payload); 
+                            payload?.role === "admin" 
+                                ? navigate("/admin", { replace: true })
+                                : navigate("/", { replace: true });
+                        } else {
+                            toast.error(response.message);
+                        }
+                    })
+            }
         }
     }
     return (

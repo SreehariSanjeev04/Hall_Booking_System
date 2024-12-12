@@ -1,25 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from 'sonner'
+import { UserContext } from "../context/userContext";
 const RecentBookings = () => {
+    const navigate = useNavigate();
+    const { user, loading} = useContext(UserContext);
     const [bookings, setBookings] = useState([]);
     const [selectedHallName, setSelectedHallName] = useState("");
 
     useEffect(() => {
+        if(!loading) {
+            if(user?.role !== "admin" && user?.role !== "user" ) {
+                navigate("/login", {
+                    replace: true,
+                })
+            }
+        }
         if (selectedHallName) {
-            fetch("http://localhost:3000/api/v1/getBookings", {
-                method: "POST",
+            fetch("http://localhost:3000/api/v1/getBookings?hallName=" + selectedHallName.toUpperCase(), {
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    hallName: selectedHallName.toUpperCase(),
-                })
             })
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
                         setBookings(data.data)
-                        console.log(bookings);
                     }
                     else toast.error(data.message);
                 })

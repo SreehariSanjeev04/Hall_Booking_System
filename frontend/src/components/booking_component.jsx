@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "react-calendar/dist/Calendar.css";
 import Calendar from "react-calendar";
 import { toast } from "sonner";
-
+import { UserContext } from "../context/userContext";
 const BookingComponent = ({
     image,
     name,
@@ -10,6 +10,8 @@ const BookingComponent = ({
     longDescription,
     availableDates,
 }) => {
+    const {user} = useContext(UserContext);
+    console.log(user);
     const [value, onChange] = useState(new Date());
     const [selectedStartTime, setSelectedStartTime] = useState("");  
     const [selectedEndTime, setSelectedEndTime] = useState("");       
@@ -64,7 +66,7 @@ const BookingComponent = ({
                     bookingDate: date.toISOString().split("T")[0],
                     startTime: `${date.toISOString().split("T")[0]}T${startTimeConverted}:00`,
                     endTime: `${date.toISOString().split("T")[0]}T${endTimeConverted}:00`,
-                    user: "User ID",
+                    user: user.rollNumber ?? "Invalid user",
                 }),
             });
             const responseData = await response.json();
