@@ -1,12 +1,12 @@
 # Hall Booking System
 
-## # Overview
+## Overview
 
 The Hall Booking System is a web application that allows users to book halls for events. It includes features such as user login, role-based access control (admin and user roles), viewing bookings, managing booking requests, and analyzing booking data.
 
 This project utilizes React for the frontend, Node.js and Express for the backend, and MongoDB for the database.
 
-## # Features
+## Features
 
 - **Authentication**: Role-based access control using JWT authentication for secure login and session management.
 - **User Dashboard**: Displays user-specific data, including bookings and booking requests.
@@ -14,30 +14,30 @@ This project utilizes React for the frontend, Node.js and Express for the backen
 - **Booking Management**: Users can make booking requests, and admins can approve or reject requests.
 - **Real-time Analytics**: Admins can view trends in booking data over time, with visual representation using charts.
 
-## # Tech Stack
+## Tech Stack
 
-### ## Frontend
+### Frontend
 - **React**: For building the user interface.
 - **React Router**: For handling routing and navigation.
 - **Chart.js**: For rendering booking trends with charts.
 - **Tailwind CSS**: For styling the application with utility-first CSS.
 
-### ## Backend
+### Backend
 - **Node.js**: JavaScript runtime for the server-side logic.
 - **Express.js**: Web framework for building the backend API.
 - **MongoDB**: NoSQL database for storing user and booking data.
 
-### ## Authentication
+### Authentication
 - **JWT (JSON Web Tokens)**: For user authentication and session management.
 
-## # Getting Started
+## Getting Started
 
-### ## Prerequisites
+### Prerequisites
 
 - Node.js and npm installed.
 - MongoDB instance running locally or using a cloud service like MongoDB Atlas.
 
-### ## Clone the Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/SreehariSanjeev04/Hall_Booking_System
