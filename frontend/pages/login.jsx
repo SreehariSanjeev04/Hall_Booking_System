@@ -15,7 +15,6 @@ const Login = () => {
         setUserDetails({...userDetails, [event.target.name] : event.target.value});
     }
     const handleRegistration = () => {
-        console.log(userDetails);
         if(!userDetails.username || !userDetails.password || !userDetails.rollNumber) {
             toast.error("Please enter all details.");
             setUserDetails({
@@ -35,7 +34,6 @@ const Login = () => {
                 })
                     .then(response => response.json())
                     .then(response => {
-                        console.log(response);
                         if (response.success) {
                             toast.success("Login successful.");
                             localStorage.setItem("token", response.token);

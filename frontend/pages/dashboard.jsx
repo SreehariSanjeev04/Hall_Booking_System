@@ -45,9 +45,9 @@ const DashBoard = () => {
                 </div>
                 {
                         !loading ? (
-                            user ? <a className="text-black rounded-lg mr-24 md:mr-72 flex items-center group hover:bg-black py-2 px-3 transition-colors duration-300 cursor-pointer">
+                            user ? <a className="text-black rounded-lg mr-24 md:mr-72 flex items-center group hover:bg-black py-2 px-3 transition-colors duration-300 cursor-pointer"  onClick={handleLogout} >
                             <span className="text-md font-bold mr-2 group-hover:text-white transition-colors duration-300">Logout</span>
-                            <CiLogout className="h-7 w-7 group-hover:text-white transition-colors duration-300" onClick={handleLogout} />
+                            <CiLogout className="h-7 w-7 group-hover:text-white transition-colors duration-300"/>
                         </a> : <a className="text-black mr-24 md:mr-72 flex items-center group py-2 rounded-lg px-3 hover:bg-black transition-colors duration-300" href="/login" >
                             <span className="text-md font-bold mr-2 group-hover:text-white transition-colors duration-300">Login</span>
                             <CiLogin className="h-7 w-7 group-hover:text-white transition-colors duration-300" />

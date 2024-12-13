@@ -30,7 +30,7 @@ const RecentBookings = () => {
                     }
                     else toast.error(data.message);
                 })
-                .catch((error) => console.error("Error fetching bookings:", error));
+                .catch((error) => toast.error("Error fetching bookings"));
         }
     }, [selectedHallName]);
 

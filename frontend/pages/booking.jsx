@@ -1,21 +1,18 @@
 import { MdDashboard } from "react-icons/md";;
 import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import BookingComponent from "../src/components/booking_component";
 import { useParams } from "react-router-dom";
-import { IoMdLogIn } from "react-icons/io";
 import { LuMousePointerClick } from "react-icons/lu"
 import { UserContext } from "../src/context/userContext";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 
 const Booking = () => {
+    const navigate = useNavigate();
     const { hall_name } = useParams();
     const { user, setUser, loading } = useContext(UserContext);
     const [hallData, setHallData] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const menu_links = ["Booking", "Dashboard"];
-    const menu_symbols = [<LuMousePointerClick />, <MdDashboard />];
-
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem("token");
@@ -40,20 +37,20 @@ const Booking = () => {
             <div className="bg-white h-full w-20 md:w-64 fixed top-0 left-0 z-20">
                 <img src="/nit_logo.svg" className="h-16 md:h-32 m-auto mt-3" alt="NIT Logo" />
                 <ul className="p-4">
-                {menu_links.map((link, index) => (
                         <li
-                            key={index}
-                            className={`flex font-semibold tracking-tighter mb-2 cursor-pointer items-center gap-3 rounded-md p-4 hover:bg-blue-300 hover:duration-500 ${
-                                selectedIndex === index ? "bg-blue-300" : ""
-                            }`}
-                            onClick={() => setSelectedIndex(index)}
+                            className={`flex font-semibold tracking-tighter mb-2 cursor-pointer items-center gap-3 rounded-md p-4 bg-blue-300`}
                         >
-                            {menu_symbols[index]} <span className="hidden md:block">{link}</span>
+                            <LuMousePointerClick /> <span className="hidden md:block">Booking</span>
                         </li>
-                    ))}
+                        <li
+                            className={`flex font-semibold tracking-tighter mb-2 cursor-pointer items-center gap-3 rounded-md p-4 bg-white hover:bg-blue-300 tranistion-colors duration-300`}
+                            onClick={() => navigate('/', { replace: true})}
+                        >
+                            <MdDashboard /> <span className="hidden md:block">Dashboard</span>
+                        </li>
                 </ul>
             </div>
-
+                        
             <div className="flex-1 bg-slate-100 h-screen ml-20 md:ml-64">
                 <div className="fixed top-0 h-20 bg-white w-full shadow-md z-10 flex justify-between items-center px">
                 <div>

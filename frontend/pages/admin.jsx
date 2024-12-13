@@ -61,6 +61,9 @@ const AdminPanel = () => {
     }, [confirmationIds, rejectionIds]);
 
     useEffect(() => {
+        /*
+            Requires the admin page to be reloaded after confirming or rejecting to make sure that batch request is completed.
+        */
         const savedConfirmationIds = JSON.parse(localStorage.getItem("confirmationIds")) || [];
         const savedRejectionIds = JSON.parse(localStorage.getItem("rejectionIds")) || [];
         if (savedConfirmationIds.length > 0 || savedRejectionIds.length > 0) {
@@ -73,7 +76,7 @@ const AdminPanel = () => {
     const handleBookingActions = async (confirmationIds, rejectionIds) => {
         try {
             if (confirmationIds.length > 0) {
-                const firstBatch = await fetch("http://localhost:3000/api/v1/confirmBooking", {
+                await fetch("http://localhost:3000/api/v1/confirmBooking", {
                     method: "PATCH",
                     headers: {
                         'Content-Type': 'application/json',
@@ -81,12 +84,10 @@ const AdminPanel = () => {
                     },
                     body: JSON.stringify({ ids: confirmationIds }),
                 });
-                const firstBatchData = await firstBatch.json();
-                console.log("Confirm Booking Response:", firstBatchData);
             }
 
             if (rejectionIds.length > 0) {
-                const secondBatch = await fetch("http://localhost:3000/api/v1/removeBooking", {
+                await fetch("http://localhost:3000/api/v1/removeBooking", {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',
@@ -94,11 +95,9 @@ const AdminPanel = () => {
                     },
                     body: JSON.stringify({ ids: rejectionIds }),
                 });
-                const secondBatchData = await secondBatch.json();
-                console.log("Remove Booking Response:", secondBatchData);
             }
         } catch (error) {
-            console.error("Error processing bookings:", error);
+            toast.error("Error processing bookings.");
         }
     };
 
@@ -126,9 +125,9 @@ const AdminPanel = () => {
                         <h3>{user.rollNumber}</h3>
                     </div>
                     {
-                        user ? <a className="text-black rounded-lg mr-24 md:mr-72 flex items-center group hover:bg-black py-2 px-3 transition-colors duration-300"  >
+                        user ? <a className="text-black rounded-lg mr-24 md:mr-72 flex items-center group hover:bg-black py-2 px-3 transition-colors duration-300"  onClick={handleLogout}   >
                             <span className="text-md font-bold mr-2 group-hover:text-white transition-colors duration-300">Logout</span>
-                            <CiLogout className="h-7 w-7 group-hover:text-white transition-colors duration-300" onClick={handleLogout} />
+                            <CiLogout className="h-7 w-7 group-hover:text-white transition-colors duration-300"/>
                         </a> : <a className="text-black pr-24 md:pr-72 flex items-center group py-2 px-3 transition-colors duration-300" href="/login" >
                             <span className="text-md font-bold mr-2 group-hover:text-white transition-colors duration-300">Login</span>
                             <CiLogin className="h-7 w-7 group-hover:text-white transition-colors duration-300" />

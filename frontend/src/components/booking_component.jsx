@@ -11,7 +11,6 @@ const BookingComponent = ({
     availableDates,
 }) => {
     const {user} = useContext(UserContext);
-    console.log(user);
     const [value, onChange] = useState(new Date());
     const [selectedStartTime, setSelectedStartTime] = useState("");  
     const [selectedEndTime, setSelectedEndTime] = useState("");       
@@ -70,7 +69,6 @@ const BookingComponent = ({
                 }),
             });
             const responseData = await response.json();
-            console.log('Here is the response: ' + responseData);
             if (responseData.success) {
                 toast.success("Booking confirmed!");
             } else {
@@ -90,7 +88,7 @@ const BookingComponent = ({
                     className="object-cover h-36 md:h-44 rounded-md"
                     alt="Hall"
                 />
-                <div className="px-2 md:px-5">
+                <div className="px-2 md:px-5 tracking-tighter">
                     <h1 className="text-xl md:text-4xl font-bold mb-4">{name}</h1>
                     <p className="text-sm md:text-xl font-semibold mb-4">
                         {longDescription}

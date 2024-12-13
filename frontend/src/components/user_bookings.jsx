@@ -9,7 +9,7 @@ const UserBookings = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (loading) return; // Wait for loading to finish
+        if (loading) return; 
         
         if (!user || (user.role !== "admin" && user.role !== "user")) {
             navigate("/login", { replace: true });
@@ -56,6 +56,7 @@ const UserBookings = () => {
                         {bookings.map((booking) => (
                             <li key={booking._id} className="mb-3 p-3 bg-gray-100 rounded-md">
                                 <p className="text-lg font-semibold">{booking.user}</p>
+                                <p className="text-lg">{booking.hallName}</p>
                                 <p className="text-sm text-gray-600">
                                     Date: {new Date(booking.bookingDate).toLocaleDateString()}
                                 </p>

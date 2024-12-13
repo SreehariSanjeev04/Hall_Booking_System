@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 exports.getAllBookings = async (req, res) => {
     try {
-        console.log(new Date().toLocaleDateString());
         const allBookings = await Booking.find({
             bookingDate: { $gte: new Date()},
         }).sort({ bookingDate: -1 });
@@ -23,7 +22,6 @@ exports.getAllBookings = async (req, res) => {
 exports.userBookings = async (req, res) => {
     try {
         const { rollNumber } = req.body;
-        console.log(new Date().toLocaleDateString());
         const allBookings = await Booking.find({
             user: rollNumber,
             bookingDate: { $gte: new Date()},
@@ -52,7 +50,6 @@ exports.getBookings = async (req, res) => {
     }
 
     const modifiedHallName = hallName.split('%').join(' ');  
-    console.log(modifiedHallName);
 
     try {
         const hallBookings = await Booking.find({
@@ -175,10 +172,8 @@ exports.removeBooking = async (req, res) => {
 
 exports.confirmBooking = async (req, res) => {
     const { ids } = req.body;
-    console.log('Received IDs:', ids);
 
     if (!ids || !Array.isArray(ids) || !ids.every(id => mongoose.Types.ObjectId.isValid(id))) {
-        console.log('Validation Failed');
         return res.status(400).json({
             success: false,
             message: "Invalid Request"
@@ -193,7 +188,6 @@ exports.confirmBooking = async (req, res) => {
             { $set: { status: "Confirmed" } } 
         );
 
-        console.log('Update Result:', result);
 
         res.status(200).json({
             success: true,
