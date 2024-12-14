@@ -17,7 +17,7 @@ const RecentBookings = () => {
             }
         }
         if (selectedHallName) {
-            fetch("http://localhost:3000/api/v1/getBookings?hallName=" + selectedHallName.toUpperCase(), {
+            fetch("https://hall-booking-system-backend.onrender.com/api/v1/getBookings?hallName=" + selectedHallName.toUpperCase(), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

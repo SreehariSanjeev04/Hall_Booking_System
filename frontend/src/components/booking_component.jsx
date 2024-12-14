@@ -54,7 +54,7 @@ const BookingComponent = ({
     
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:3000/api/v1/addBooking", {
+            const response = await fetch("https://hall-booking-system-backend.onrender.com/api/v1/addBooking", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

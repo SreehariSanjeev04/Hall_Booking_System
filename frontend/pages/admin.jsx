@@ -20,7 +20,7 @@ const AdminPanel = () => {
         window.location.reload();
     } 
     useEffect(() => {
-        fetch("http://localhost:3000/api/v1/getAllBookings", {
+        fetch("https://hall-booking-system-backend.onrender.com/api/v1/getAllBookings", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -76,7 +76,7 @@ const AdminPanel = () => {
     const handleBookingActions = async (confirmationIds, rejectionIds) => {
         try {
             if (confirmationIds.length > 0) {
-                await fetch("http://localhost:3000/api/v1/confirmBooking", {
+                await fetch("https://hall-booking-system-backend.onrender.com/api/v1/confirmBooking", {
                     method: "PATCH",
                     headers: {
                         'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const AdminPanel = () => {
             }
 
             if (rejectionIds.length > 0) {
-                await fetch("http://localhost:3000/api/v1/removeBooking", {
+                await fetch("https://hall-booking-system-backend.onrender.com/api/v1/removeBooking", {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',

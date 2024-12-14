@@ -24,7 +24,7 @@ const Login = () => {
             });
         } else {
             if (!loading) {
-                fetch("http://localhost:3000/api/v1/loginUser", {
+                fetch("https://hall-booking-system-backend.onrender.com/api/v1/loginUser", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',

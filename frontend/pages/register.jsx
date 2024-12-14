@@ -16,7 +16,7 @@ const Register = () => {
         if(!userDetails.username || !userDetails.password || !userDetails.rollNumber) {
             toast.error("Please enter all details.");
         } else {
-            fetch("http://localhost:3000/api/v1/createUser", {
+            fetch("https://hall-booking-system-backend.onrender.com/api/v1/createUser", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ const UserBookings = () => {
 
         const fetchBookings = async () => {
             try {
-                const response = await fetch("http://localhost:3000/api/v1/userBookings", {
+                const response = await fetch("https://hall-booking-system-backend.onrender.com/api/v1/userBookings", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
