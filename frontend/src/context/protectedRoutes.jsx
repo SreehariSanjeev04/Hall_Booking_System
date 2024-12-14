@@ -8,6 +8,7 @@ const RoleBasedRoute = ({ allowedRoles, children }) => {
     if (loading) return <div>Loading...</div>;
 
     if (!user) {
+        console.log("Hello")
         return <Navigate to="/login" />;
     }
 
