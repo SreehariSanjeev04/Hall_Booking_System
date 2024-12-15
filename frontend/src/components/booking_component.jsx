@@ -70,7 +70,7 @@ const BookingComponent = ({
             });
             const responseData = await response.json();
             if (responseData.success) {
-                toast.success("Booking confirmed!");
+                toast.success("Booking requested successfully!");
             } else {
                 toast.error(`Error: ${responseData.message}`);
             }

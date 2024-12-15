@@ -12,7 +12,7 @@ const UserBookings = () => {
         if (loading) return; 
         
         if (!user || (user.role !== "admin" && user.role !== "user")) {
-            navigate("/login", { replace: true });
+            navigate("/login", { replace: false });
             return;
         }
 

@@ -12,7 +12,7 @@ const RecentBookings = () => {
         if(!loading) {
             if(user?.role !== "admin" && user?.role !== "user" ) {
                 navigate("/login", {
-                    replace: true,
+                    replace: false,
                 })
             }
         }

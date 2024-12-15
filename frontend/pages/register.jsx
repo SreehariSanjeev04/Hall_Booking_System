@@ -51,7 +51,7 @@ const Register = () => {
             <input onChange={handleChange} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" name="password" type="password" placeholder="Password" />
             <input onChange={handleChange} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" name="rollNumber" type="text" placeholder="Roll Number" />
             <div className="text-center md:text-left">
-              <button onClick={handleRegistration} className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">Login</button>
+              <button onClick={handleRegistration} className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">Register</button>
             </div>
             <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
               Already have an account? <a className="text-red-600 hover:underline hover:underline-offset-4" href="/login">Login</a>
