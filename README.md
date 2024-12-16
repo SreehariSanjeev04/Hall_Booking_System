@@ -24,7 +24,7 @@ rollNumber: AM123456
 
 ## Screenshots
 
-![login](login.jpeg) ![user_bookings](user_bookings.jpeg) ![main_page](main_page.jpeg) ![recent_bookings](recent_bookings.jpeg) ![registration](registration.jpeg) ![admin_dashboard](admin_dashboard.jpeg) ![admin_booking_request](admin_booking_request.jpeg)
+![login](/screenshots/login.jpeg) ![user_bookings](/screenshots/user_bookings.jpeg) ![main_page](/screenshots/main_page.jpeg) ![recent_bookings](/screenshots/recent_bookings.jpeg) ![registration](/screenshots/registration.jpeg) ![admin_dashboard](/screenshots/admin_dashboard.jpeg) ![admin_booking_request](/screenshots/admin_booking_request.jpeg)
 ## Features
 
 - **Authentication**: Role-based access control using JWT authentication for secure login and session management.
@@ -61,6 +61,7 @@ rollNumber: AM123456
 ```bash
 git clone https://github.com/SreehariSanjeev04/Hall_Booking_System
 cd Hall_Booking_System
+npm install
 npm start
 ```
 # Features
