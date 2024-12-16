@@ -47,36 +47,16 @@ const AdminPanel = () => {
         setRequests((prevRequests) => prevRequests.filter((request) => request._id !== id));
     };
 
-    const handleBeforeUnload = (e) => {
-        e.preventDefault();
-        localStorage.setItem("confirmationIds", JSON.stringify(confirmationIds));
-        localStorage.setItem("rejectionIds", JSON.stringify(rejectionIds));
-    };
-
-    useEffect(() => {
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, [confirmationIds, rejectionIds]);
-
-    useEffect(() => {
-        /*
-            Requires the admin page to be reloaded after confirming or rejecting to make sure that batch request is completed.
-        */
-        const savedConfirmationIds = JSON.parse(localStorage.getItem("confirmationIds")) || [];
-        const savedRejectionIds = JSON.parse(localStorage.getItem("rejectionIds")) || [];
-        if (savedConfirmationIds.length > 0 || savedRejectionIds.length > 0) {
-            handleBookingActions(savedConfirmationIds, savedRejectionIds);
-            localStorage.removeItem("confirmationIds");
-            localStorage.removeItem("rejectionIds");
-        }
-    }, []);
+    const handleSaveChanges= () => {
+        handleBookingActions(confirmationIds, rejectionIds);
+        setConfirmationIds([]);
+        setRejectionIds([]);
+    }
 
     const handleBookingActions = async (confirmationIds, rejectionIds) => {
         try {
             if (confirmationIds.length > 0) {
-                await fetch("https://hall-booking-system-backend.onrender.com/api/v1/confirmBooking", {
+                const confirmationBlob = await fetch("https://hall-booking-system-backend.onrender.com/api/v1/confirmBooking", {
                     method: "PATCH",
                     headers: {
                         'Content-Type': 'application/json',
@@ -84,10 +64,14 @@ const AdminPanel = () => {
                     },
                     body: JSON.stringify({ ids: confirmationIds }),
                 });
+                const confirmationResponse = await confirmationBlob.json();
+                if(confirmationResponse.success) {
+                    toast.success(confirmationResponse.message);
+                }
             }
 
             if (rejectionIds.length > 0) {
-                await fetch("https://hall-booking-system-backend.onrender.com/api/v1/removeBooking", {
+                const rejectionBlob = await fetch("https://hall-booking-system-backend.onrender.com/api/v1/removeBooking", {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',
@@ -95,6 +79,10 @@ const AdminPanel = () => {
                     },
                     body: JSON.stringify({ ids: rejectionIds }),
                 });
+                const rejectionResponse = await rejectionBlob.json();
+                if(rejectionResponse.success) {
+                    toast.success(rejectionResponse.message);
+                }
             }
         } catch (error) {
             toast.error("Error processing bookings.");
@@ -125,10 +113,10 @@ const AdminPanel = () => {
                         <h3>{user.rollNumber}</h3>
                     </div>
                     {
-                        user ? <a className="text-black rounded-lg mr-24 md:mr-72 flex items-center group hover:bg-black py-2 px-3 transition-colors duration-300"  onClick={handleLogout}   >
+                        user ? <a className="text-black rounded-lg mr-24 md:mr-72 flex items-center group hover:bg-black py-2 px-3 transition-colors duration-300 cursor-pointer"  onClick={handleLogout}   >
                             <span className="text-md font-bold mr-2 group-hover:text-white transition-colors duration-300">Logout</span>
                             <CiLogout className="h-7 w-7 group-hover:text-white transition-colors duration-300"/>
-                        </a> : <a className="text-black pr-24 md:pr-72 flex items-center group py-2 px-3 transition-colors duration-300" href="/login" >
+                        </a> : <a className="text-black pr-24 md:pr-72 flex items-center group py-2 px-3 transition-colors duration-300 cursor-pointer" href="/login" >
                             <span className="text-md font-bold mr-2 group-hover:text-white transition-colors duration-300">Login</span>
                             <CiLogin className="h-7 w-7 group-hover:text-white transition-colors duration-300" />
                         </a>
@@ -139,6 +127,9 @@ const AdminPanel = () => {
                     {selectedIndex === 1 ? (
                         <div>
                             <h2 className="text-xl font-bold mb-4">Booking Requests</h2>
+                            <button className="bg-green-700 rounded-md py-2 px-3 text-white font-semibold mb-5" onClick={() => handleSaveChanges()}>
+                                Save Changes
+                            </button>
                             {requests.length > 0 ? (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {requests.map((request) => request.status == "Pending" && (

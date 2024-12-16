@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
+import { useContext } from "react";
+import { UserContext } from "../src/context/userContext";
+import { replace, useNavigate } from "react-router-dom";
 
 
 const Register = () => {
+    const navigate = useNavigate();
+    const {user, loading} = useContext(UserContext);
     const [userDetails, setUserDetails] = useState({
         username: "",
         password: null,
@@ -16,28 +20,36 @@ const Register = () => {
         if(!userDetails.username || !userDetails.password || !userDetails.rollNumber) {
             toast.error("Please enter all details.");
         } else {
-            fetch("https://hall-booking-system-backend.onrender.com/api/v1/createUser", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify(userDetails),
-            }).then( response => response.json())
-            .then( response => {
-                if(response.success) {
-                    toast.success("User registered successfully.");
-                } else {
-                    toast.error(response.message);
-                }
-            })
+            if(!loading) {
+                fetch("https://hall-booking-system-backend.onrender.com/api/v1/createUser", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify(userDetails),
+                }).then( response => response.json())
+                .then( response => {
+                    if(response.success) {
+                        toast.success("User registered successfully.");
+                    } else {
+                        toast.error(response.message);
+                    }
+                })
+            }
         }
         setUserDetails({
             username: "",
-            password: null,
+            password: "",
             rollNumber: ""
         });
     }
+    useEffect(() => {
+        if(user) {
+            if(user.role === "admin") navigate('/admin', {replace: true});
+            else navigate('/', {replace: true}); 
+        } 
+    },[user])
     return (
         <section className="h-screen flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
           <div className="md:w-1/3 max-w-sm">

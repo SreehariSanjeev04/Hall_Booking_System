@@ -41,9 +41,8 @@ const UserBookings = () => {
         };
 
         fetchBookings();
-    }, [user, loading, navigate]);
+    }, [user, loading]);
 
-    if (loading) return <div>Loading...</div>;
 
     return (
         <>

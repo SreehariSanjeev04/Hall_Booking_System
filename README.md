@@ -8,6 +8,23 @@ This project utilizes React for the frontend, Node.js and Express for the backen
 
 Website Link - https://hall-booking-system-frontend.onrender.com/
 
+### User Credentials 
+```bash
+username: randomuser@gmail.com
+password: randomuser123
+rollNumber: RU123456
+```
+
+### Admin Credentials 
+```bash
+username: admin@gmail.com
+password: admin123
+rollNumber: AM123456
+```
+
+## Screenshots
+
+![login](login.jpeg) ![user_bookings](user_bookings.jpeg) ![main_page](main_page.jpeg) ![recent_bookings](recent_bookings.jpeg) ![registration](registration.jpeg) ![admin_dashboard](admin_dashboard.jpeg) ![admin_booking_request](admin_booking_request.jpeg)
 ## Features
 
 - **Authentication**: Role-based access control using JWT authentication for secure login and session management.
@@ -55,7 +72,6 @@ Analytics: Admins can view trends over time for bookings using a Line chart gene
 Manage Requests: Admins can approve or reject booking requests.
 User Management: Admins can manage users and their roles.
 
-Note - Kindly reload the admin panel after confirming or rejecting the booking requests to make sure that it is saved.
 ## User Dashboard
 Booking Overview: Users can view their booking requests and see the status (approved, pending, rejected).
 Request New Booking: Users can submit new booking requests which will be approved by an admin.
@@ -77,6 +93,8 @@ Idea was to create a minimal viable product within the given deadline that is sa
 1) Better UI, with animations and light/dark mode.
 2) Caching of data for faster performance.
 3) Better error checking mechanism
+4) 2FA authentication for better security
+5) Forgot password mechanism
 
 # Challenges
 
