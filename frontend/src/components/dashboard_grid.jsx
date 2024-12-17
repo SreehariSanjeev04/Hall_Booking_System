@@ -16,7 +16,7 @@ const DashBoardGrid = () => {
     }, []);
     const handleSearch = (e) => {
         setSearchText(e.target.value);
-        const text = e.target.value;
+        const text = e.target.value.toLowerCase();
         setFilteredData(data.filter((item) => item.name.toLowerCase().includes(text)));
     }
     return (
